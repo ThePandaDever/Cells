@@ -32,7 +32,7 @@ def Sub(vec1,vec2):
 def Mul(vec1,vec2):
     return vec1[0]*vec2[0],vec1[1]*vec2[1]
 def Rotate(val,rot):
-    radians = -math.radians(rot)
+    radians = math.radians(rot)
     x,y = val
     xx = x * math.cos(radians) + y * math.sin(radians)
     yy = -x * math.sin(radians) + y * math.cos(radians)
@@ -43,7 +43,7 @@ def SceneToScreen(pos):
     Pos = Pos[0] * ctx.screen_ratiob, -Pos[1]
     return Add(Pos,Mul(ctx.screen_size,(.5,.5)))
 def RotateImage(image: pg.Surface, angle: float,x,y):
-    rotated_image = pg.transform.rotate(image, angle)
+    rotated_image = pg.transform.rotate(image, -angle)
     new_rect = rotated_image.get_rect(center=image.get_rect(center=(x, y)).center)
 
     return rotated_image,new_rect

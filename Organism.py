@@ -9,7 +9,7 @@ def Mul(vec1,vec2):
 def Div(vec1,vec2):
     return vec1[0]/vec2[0],vec1[1]/vec2[1]
 def Rotate(val,rot):
-    radians = math.radians(rot)
+    radians = -math.radians(rot)
     x,y = val
     xx = x * math.cos(radians) + y * math.sin(radians)
     yy = -x * math.sin(radians) + y * math.cos(radians)
@@ -26,4 +26,4 @@ class Organism:
         for cell in self.cells:
             cell.ParentOrganism = self
             if cell.Type == "movement":
-                self.cells[0].Velocity = Mul(Sub(self.cells[0].Position,self.target.Position),(.1,.1))
+                self.cells[0].Position = Mul(Sub(self.cells[0].Position,self.target.Position),(.1,.1))

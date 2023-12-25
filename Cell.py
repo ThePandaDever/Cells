@@ -8,7 +8,7 @@ def Sub(vec1,vec2):
 def Mul(vec1,vec2):
     return vec1[0]*vec2[0],vec1[1]*vec2[1]
 def Rotate(val,rot):
-    radians = math.radians(rot)
+    radians = -math.radians(rot)
     x,y = val
     xx = x * math.cos(radians) + y * math.sin(radians)
     yy = -x * math.sin(radians) + y * math.cos(radians)
@@ -32,7 +32,7 @@ class Cell:
         self.AngularVelocity = AngularVelocity
 
     def update(self,ctx: Context):
-        self.Velocity = Add(self.Velocity,Mul(Sub(Add(self.ParentOrganism.cells[0].Position,Rotate(self.LocalPosition,self.ParentOrganism.cells[0].Rotation)),self.Position),(ctx.deltatime*10,ctx.deltatime*10)))
-        self.AngularVelocity = self.AngularVelocity + (self.ParentOrganism.cells[0].Rotation - self.Rotation) * ctx.deltatime*10
+        self.Position = Add(self.Position,Mul(Sub(Add(self.ParentOrganism.cells[0].Position,Rotate(self.LocalPosition,self.ParentOrganism.cells[0].Rotation)),self.Position),(ctx.deltatime*5,ctx.deltatime*5)))
+        self.Rotation = self.Rotation + (self.ParentOrganism.cells[0].Rotation - self.Rotation) * ctx.deltatime*5
         self.Position = self.Position[0]+self.Velocity[0] * ctx.deltatime, self.Position[1]+self.Velocity[1]*ctx.deltatime
         self.Rotation = self.Rotation + self.AngularVelocity * ctx.deltatime

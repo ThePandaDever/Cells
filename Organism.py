@@ -9,7 +9,11 @@ def Mul(vec1,vec2):
 def Div(vec1,vec2):
     return vec1[0]/vec2[0],vec1[1]/vec2[1]
 def Rotate(val,rot):
-    return val[0] * math.sin(math.radians(rot)) + val[1] * math.cos(math.radians(rot)), val[1] * math.sin(math.radians(rot)) + val[0] * math.cos(math.radians(rot))
+    radians = math.radians(rot)
+    x,y = val
+    xx = x * math.cos(radians) + y * math.sin(radians)
+    yy = -x * math.sin(radians) + y * math.cos(radians)
+    return xx,yy
 
 class Organism:
     cells: list

@@ -1,3 +1,5 @@
+import math
+
 import pygame as pg
 from Types import *
 from Cell import *
@@ -30,19 +32,30 @@ def Sub(vec1,vec2):
 def Mul(vec1,vec2):
     return vec1[0]*vec2[0],vec1[1]*vec2[1]
 def Rotate(val,rot):
-    return val[0] * math.sin(math.radians(rot)) + val[1] * math.cos(math.radians(rot)), val[0] * math.cos(math.radians(rot)) + val[1] * math.sin(math.radians(rot))
+    radians = math.radians(rot)
+    x,y = val
+    xx = x * math.cos(radians) + y * math.sin(radians)
+    yy = -x * math.sin(radians) + y * math.cos(radians)
+    return xx,yy
 
 def SceneToScreen(pos):
     Pos = Mul(Sub(pos,CameraPos),Mul(ctx.screen_size,(CameraSize,CameraSize)))
     Pos = Pos[0] * ctx.screen_ratiob, -Pos[1]
     return Add(Pos,Mul(ctx.screen_size,(.5,.5)))
+def RotateImage(image: pg.Surface, angle: float,x,y):
+    rotated_image = pg.transform.rotate(image, angle)
+    new_rect = rotated_image.get_rect(center=image.get_rect(center=(x, y)).center)
 
+    return rotated_image,new_rect
 def Draw(texture:pg.Surface,pos:tuple,rot=None):
     if not rot:
         ctx.screen.blit(texture, Sub(SceneToScreen(pos),Mul(texture.get_size(),(.5,.5))))
     else:
-        t = pg.transform.rotate(texture,math.radians(rot))
-        ctx.screen.blit(pg.transform.rotate(t,rot), Sub(SceneToScreen(pos), Mul(t.get_size(), (.5, .5))))
+        #ctx.screen.blit(pg.transform.rotate(t,rot), Sub(SceneToScreen(pos), Mul(t.get_size(), (.5, .5))))
+        #p = Sub(SceneToScreen(pos), texture.get_size())
+        p = SceneToScreen(pos)
+        ri = RotateImage(texture,rot,p[0],p[1])
+        ctx.screen.blit(ri[0],ri[1])
 
 Update()
 
